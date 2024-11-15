@@ -40,7 +40,7 @@ def webhook(f):
             return HttpResponseBadRequest()
 
         # Verify the HMAC.
-        if not hmac_is_valid(request.body, settings.SHOPIFY_APP_API_SECRET, hmac):
+        if not hmac_is_valid(request.body, settings.SHOPIFY_CUSTOM_APP_API_SECRET, hmac):
             return HttpResponseUnauthorized()
 
         # Otherwise, set properties on the request object and return.
@@ -77,7 +77,7 @@ def carrier_request(f):
             return HttpResponseBadRequest()
 
         # Verify the HMAC.
-        if not hmac_is_valid(request.body, settings.SHOPIFY_APP_API_SECRET, hmac):
+        if not hmac_is_valid(request.body, settings.SHOPIFY_CUSTOM_APP_API_SECRET, hmac):
             return HttpResponseForbidden()
 
         # Otherwise, set properties on the request object and return.
@@ -97,7 +97,7 @@ def app_proxy(f):
     def wrapper(request, *args, **kwargs):
 
         # Verify the signature.
-        if not proxy_signature_is_valid(request, settings.SHOPIFY_APP_API_SECRET):
+        if not proxy_signature_is_valid(request, settings.SHOPIFY_CUSTOM_APP_API_SECRET):
             return HttpResponseBadRequest()
 
         return f(request, *args, **kwargs)
